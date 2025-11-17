@@ -1,24 +1,16 @@
 /**
  * Lucky Capsule Contract Deployment Script
- * Base Network için deployment
+ * Base Network için deployment - Supra dVRF ile
  */
 
 const hre = require("hardhat");
 
-// Base Mainnet Chainlink VRF parametreleri
 const BASE_MAINNET_CONFIG = {
-  vrfCoordinator: "0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634", // Base Mainnet VRF Coordinator
-  gasLane: "0x8077df514608a09f83e4e8d300645594e5d7234665448ba83f51a50f842bd3d9", // 200 gwei Key Hash
-  callbackGasLimit: 500000,
-  subscriptionId: 0, // Bu değer Chainlink VRF subscription oluşturduktan sonra güncellenecek
+  supraRouter: "0x99a021029EBC90020B193e111Ae2726264a111A2", // Base Mainnet Supra Router
 };
 
-// Base Sepolia (Testnet) Chainlink VRF parametreleri
 const BASE_SEPOLIA_CONFIG = {
-  vrfCoordinator: "0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634",
-  gasLane: "0x8077df514608a09f83e4e8d300645594e5d7234665448ba83f51a50f842bd3d9",
-  callbackGasLimit: 500000,
-  subscriptionId: 0,
+  supraRouter: "0x99a021029EBC90020B193e111Ae2726264a111A2", // Base Sepolia Supra Router
 };
 
 // Base Network Meme Token Adresleri (güncel adresleri buraya ekleyin)
@@ -43,16 +35,15 @@ async function main() {
   const config = network === "base" ? BASE_MAINNET_CONFIG : BASE_SEPOLIA_CONFIG;
 
   console.log(`Network: ${network}`);
-  console.log(`VRF Coordinator: ${config.vrfCoordinator}\n`);
+  console.log(`Supra Router: ${config.supraRouter}\n`);
 
   // Contract deploy
   console.log("📝 LuckyCapsule contract deploy ediliyor...");
   const LuckyCapsule = await hre.ethers.getContractFactory("LuckyCapsule");
+  
   const luckyCapsule = await LuckyCapsule.deploy(
-    config.vrfCoordinator,
-    config.subscriptionId,
-    config.gasLane,
-    config.callbackGasLimit
+    config.supraRouter,
+    deployer.address // Supra'ya kayıtlı client wallet address
   );
 
   await luckyCapsule.deployed();
@@ -116,25 +107,25 @@ async function main() {
   console.log("✅ SHIBA token ödülü eklendi (Epic)\n");
 
   // Deployment özeti
-  console.log("=" .repeat(50));
+  console.log("=".repeat(50));
   console.log("📋 DEPLOYMENT ÖZETİ");
-  console.log("=" .repeat(50));
+  console.log("=".repeat(50));
   console.log("Contract Address:", luckyCapsule.address);
   console.log("Network:", network);
-  console.log("VRF Coordinator:", config.vrfCoordinator);
+  console.log("Supra Router:", config.supraRouter);
+  console.log("Client Address:", deployer.address);
   console.log("Capsule Fee:", "0.001 ETH");
   console.log("Cooldown Period:", "24 hours");
-  console.log("=" .repeat(50));
-  console.log("\n⚠️  ÖNEMLİ: Chainlink VRF Subscription Setup");
-  console.log("1. https://vrf.chain.link adresine git");
-  console.log("2. Yeni bir subscription oluştur");
-  console.log("3. Subscription'a LINK token ekle");
-  console.log("4. Consumer olarak contract adresini ekle:", luckyCapsule.address);
-  console.log("5. Subscription ID'yi contract'a güncelle\n");
+  console.log("=".repeat(50));
+  console.log("\n⚠️  ÖNEMLİ: Supra dVRF Setup");
+  console.log("1. Supra ekibi ile wallet adresinizi kaydedin:", deployer.address);
+  console.log("2. Contract adresinizi whitelist'e ekleyin:", luckyCapsule.address);
+  console.log("3. Callback gas fee için contract'a ETH yatırın");
+  console.log("4. Detaylar: https://docs.supra.com/oracles/dvrf/vrf-subscription-model\n");
 
   // Verification için bilgiler
   console.log("🔍 Contract Verification için komut:");
-  console.log(`npx hardhat verify --network ${network} ${luckyCapsule.address} ${config.vrfCoordinator} ${config.subscriptionId} ${config.gasLane} ${config.callbackGasLimit}\n`);
+  console.log(`npx hardhat verify --network ${network} ${luckyCapsule.address} ${config.supraRouter} ${deployer.address}\n`);
 }
 
 main()

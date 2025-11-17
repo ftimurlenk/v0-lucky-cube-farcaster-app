@@ -1,106 +1,182 @@
-# 🎲 Lucky Cube - Farcaster Mini App
+# Lucky Capsule - Farcaster Mini App
 
-A mobile-first Farcaster Mini App built on Base blockchain where users can break a lucky cube once per day to discover random rewards.
+Lucky Capsule, Base Network üzerinde çalışan bir günlük şans oyunu mini uygulamasıdır. Kullanıcılar her gün bir kapsül açabilir ve içinden Base Network meme tokenleri kazanabilirler.
 
-## Features
+## 🎮 Özellikler
 
-- **Daily Cube Breaking**: Break one cube per day with smooth 3D animations
-- **Reward System**: Earn rewards with different rarities (Common, Rare, Epic, Legendary)
-- **Farcaster Integration**: Authenticate with Farcaster and share your results
-- **Base Network**: Onchain reward claiming on Base blockchain
-- **Streak Tracking**: Build daily streaks and unlock achievements
-- **Glassmorphism UI**: Modern dark theme with neon Base-blue accents
+- **Günlük Kapsül**: Her 24 saatte bir kapsül açma hakkı
+- **Base Network Meme Tokens**: DEGEN, BRETT, TOSHI, MOCHI, BASEGOD, SHIBA
+- **Rarity Sistemi**: Common (50%), Rare (30%), Epic (15%), Legendary (5%)
+- **Manipüle Edilemez**: Supra dVRF ile gerçek randomness
+- **Mobile-First**: Farcaster Mini App uyumlu tasarım
+- **Glassmorphism UI**: Modern ve premium görünüm
+- **Animated Capsule Machine**: Candy dispenser tarzı animasyonlar
 
-## Tech Stack
+## 🚀 Teknolojiler
 
-- **Framework**: Next.js 16 with App Router
-- **Styling**: Tailwind CSS v4 with custom glassmorphism utilities
-- **Blockchain**: Base (Ethereum L2)
-- **Social**: Farcaster Mini App SDK
-- **Components**: shadcn/ui with custom mobile-first components
+### Frontend
+- Next.js 16 with App Router
+- React 19.2
+- TailwindCSS v4
+- TypeScript
+- Farcaster SDK
 
-## Getting Started
+### Smart Contracts
+- Solidity 0.8.20
+- Hardhat
+- OpenZeppelin Contracts
+- Supra dVRF (Decentralized Verifiable Random Function)
 
-1. Install dependencies:
+## 📦 Kurulum
+
 \`\`\`bash
+# Repository'yi klonlayın
+git clone <repo-url>
+cd lucky-capsule
+
+# Dependencies yükleyin
 npm install
-\`\`\`
 
-2. Run the development server:
-\`\`\`bash
+# Environment variables ayarlayın
+cp .env.example .env
+# .env dosyasını düzenleyin
+
+# Development server'ı başlatın
 npm run dev
 \`\`\`
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+## 🔧 Smart Contract Deployment
 
-## Farcaster Integration
+### Gereksinimler
+1. Base Network için ETH
+2. Supra dVRF wallet kaydı (zorunlu!)
+3. Token havuzu için meme tokenler
 
-The app uses the Farcaster Mini App SDK for:
-- `quickAuth()` - Quick user authentication
-- `getUserData()` - Fetch user profile data
-- `getFrameContext()` - Detect Farcaster environment
-- `shareToCast()` - Share cube results to Farcaster
+### Deployment Adımları
 
-## Base Network Integration
+1. **Supra dVRF Kaydı** (Öncelikle yapılmalı!)
+   - Supra dökümanlarını inceleyin: https://docs.supra.com/oracles/dvrf/vrf-subscription-model
+   - Wallet adresinizi Supra ekibine bildirin
+   - Whitelist onayı bekleyin (24-48 saat)
 
-Connected to Base network for onchain features:
-- Wallet connection with automatic network switching
-- Onchain reward claiming (ERC-1155 tokens)
-- Transaction status tracking with loading states
+2. **Testnet'e Deploy**
+\`\`\`bash
+npm run compile
+npm run deploy:testnet
+\`\`\`
 
-## Project Structure
+3. **Contract'ı Whitelist'e Ekleyin**
+   - Deploy edilen contract adresini Supra ekibine bildirin
+
+4. **Token Havuzunu Doldurun**
+\`\`\`bash
+# scripts/fund-pool.js içinde CONTRACT_ADDRESS güncelleyin
+npm run fund:testnet
+\`\`\`
+
+5. **Mainnet Deploy**
+\`\`\`bash
+npm run deploy:mainnet
+npm run fund:mainnet
+\`\`\`
+
+Detaylı deployment kılavuzu için [DEPLOYMENT.md](./DEPLOYMENT.md) dosyasına bakın.
+
+## 🎲 Token Ödülleri
+
+| Token | Rarity | Şans | Miktar |
+|-------|--------|------|--------|
+| DEGEN 🎩 | Common | 50% | 100-500 |
+| BRETT 🔵 | Rare | 30% | 50-200 |
+| TOSHI 🐱 | Rare | 30% | 1K-5K |
+| MOCHI 🍡 | Epic | 15% | 20-100 |
+| SHIBA 🐕 | Epic | 15% | 500K-2M |
+| BASEGOD ⚡ | Legendary | 5% | 10-50 |
+
+## 🔐 Güvenlik
+
+- **Supra dVRF**: Manipüle edilemez randomness
+- **ReentrancyGuard**: Reentrancy saldırılarına karşı korumalı
+- **24h Cooldown**: Spam ve abuse önleme
+- **SafeERC20**: Güvenli token transferleri
+- **Ownable**: Yetkilendirilmiş admin fonksiyonları
+
+## 📱 Proje Yapısı
 
 \`\`\`
 app/
-  ├── page.tsx              # Main app entry with tab navigation
-  ├── layout.tsx            # Root layout with dark theme
-  └── globals.css           # Custom theme with glassmorphism utilities
+  ├── page.tsx              # Ana uygulama giriş noktası
+  ├── layout.tsx            # Root layout (Lucky Capsule title)
+  └── globals.css           # Custom theme & glassmorphism
 
 components/
-  ├── cube-screen.tsx       # Main cube breaking screen
-  ├── lucky-cube.tsx        # 3D animated cube component
-  ├── reward-modal.tsx      # Reward reveal with share functionality
-  ├── rewards-screen.tsx    # Reward history
-  ├── profile-screen.tsx    # User stats and achievements
-  ├── header.tsx            # App header with user info
-  ├── bottom-nav.tsx        # Mobile navigation
-  ├── wallet-connect.tsx    # Base wallet connection
+  ├── cube-screen.tsx       # Ana kapsül ekranı
+  ├── capsule-machine.tsx   # Candy dispenser animasyonu
+  ├── reward-modal.tsx      # Ödül gösterimi
+  ├── header.tsx            # Başlık ve cüzdan bağlantısı
   └── ui/                   # shadcn/ui components
+
+contracts/
+  └── LuckyCapsule.sol      # Ana smart contract
+
+scripts/
+  ├── deploy-contracts.js   # Deployment script
+  └── fund-pool.js          # Token havuzu doldurma
 
 lib/
   ├── farcaster.ts          # Farcaster SDK utilities
-  ├── base.ts               # Base network integration
-  └── utils.ts              # Helper functions
+  └── base.ts               # Base network integration
 \`\`\`
 
-## Design System
+## 🎨 Tasarım Sistemi
 
-**Colors:**
+**Renkler:**
 - Primary: Base Blue `oklch(0.65 0.25 250)`
-- Secondary: Neon Purple `oklch(0.6 0.2 280)`
 - Background: Dark `oklch(0.08 0.02 265)`
-- Glassmorphism panels with backdrop blur
+- Glassmorphism: backdrop-blur with transparency
 
-**Typography:**
-- Font: Geist Sans for UI, Geist Mono for code
+**Animasyonlar:**
+- Capsule mixing (800ms shake animation)
+- Drop animation (1.5s with bounce)
+- Explosion (1.5s with 32 particles)
+- Smooth color transitions
 
-**Animations:**
-- Cube rotation and float effects
-- Smooth page transitions
-- Rarity-based reveal effects
+## 🧪 Test
 
-## Mobile-First Design
+\`\`\`bash
+# Contract testleri
+npm run test
 
-Optimized for mobile devices (390px - 428px width):
-- Safe area insets for notch/home bar
-- Touch-friendly tap targets
-- Bottom navigation for thumb accessibility
-- Responsive glassmorphism panels
+# Coverage
+npm run coverage
 
-## Future Enhancements
+# Gas report
+REPORT_GAS=true npm run test
+\`\`\`
 
-- Real smart contract integration for rewards
-- Multiplayer features and leaderboards  
-- Additional cube skins and themes
-- Weekly challenges and special events
-- NFT rewards for legendary items
+## 📄 Lisans
+
+MIT
+
+## 🤝 Katkıda Bulunma
+
+Pull request'ler memnuniyetle karşılanır! Büyük değişiklikler için lütfen önce bir issue açın.
+
+## ⚠️ Önemli Notlar
+
+- Private key'lerinizi ASLA paylaşmayın
+- Mainnet deploy öncesi testnet'te test edin
+- Token havuzunu düzenli kontrol edin
+- Supra whitelist kaydınızı tamamlayın
+- Contract'ta yeterli ETH bulundurun (callback gas için)
+
+## 🔗 Faydalı Linkler
+
+- [Supra dVRF Docs](https://docs.supra.com/oracles/dvrf)
+- [Base Network](https://base.org)
+- [Farcaster](https://www.farcaster.xyz/)
+- [Hardhat](https://hardhat.org)
+
+---
+
+Made with ❤️ for Base Network and Farcaster

@@ -5,7 +5,7 @@
 1. Node.js (v18+)
 2. Hardhat
 3. Base Network için ETH
-4. Chainlink LINK tokens (VRF için)
+4. Supra dVRF wallet kaydı (ZORUNLU)
 5. Token havuzu için meme tokenler
 
 ## Kurulum
@@ -30,42 +30,47 @@ BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 
 # BaseScan API Key (verification için)
 BASESCAN_API_KEY=your_basescan_api_key
-
-# Chainlink VRF Subscription ID (subscription oluşturduktan sonra)
-VRF_SUBSCRIPTION_ID=your_subscription_id
 \`\`\`
 
 ## Deployment Adımları
 
-### 1. Test Network'e Deploy (Base Sepolia)
+### 1. Supra dVRF Wallet Kaydı (ÖNCELİKLE YAPILMALI)
+
+**Bu adım ZORUNLUDUR!** Supra dVRF kullanmak için wallet adresinizi Supra ekibine kaydettirmeniz gerekiyor.
+
+1. Supra dökümanlarını inceleyin: https://docs.supra.com/oracles/dvrf/vrf-subscription-model
+2. Wallet adresinizi Supra ekibine bildirin ve whitelist'e ekleyin
+3. Onay bekleyin (genelde 24-48 saat)
+
+### 2. Test Network'e Deploy (Base Sepolia)
 
 \`\`\`bash
 npx hardhat run scripts/deploy-contracts.js --network baseSepolia
 \`\`\`
 
-### 2. Chainlink VRF Subscription Kurulumu
+### 3. Contract'ı Supra'ya Kaydet
 
-1. https://vrf.chain.link adresine git
-2. Base Sepolia network'ü seç
-3. "Create Subscription" butonuna tıkla
-4. Subscription oluştuktan sonra ID'yi not al
-5. "Add Funds" ile subscription'a LINK token ekle (minimum 5 LINK önerilir)
-6. "Add Consumer" ile deploy ettiğin contract adresini ekle
+Deploy edilen contract adresini Supra ekibine bildirin ve whitelist'e eklettirin. Contract callback fonksiyonunu çağırabilmesi için bu adres da kayıtlı olmalı.
 
-### 3. Token Havuzu Doldurma
+### 4. Callback Gas Fee Yatır
+
+Contract'ın callback fonksiyonunu çağırabilmesi için gas fee gerekiyor. Contract adresine ETH yatırın:
+
+\`\`\`bash
+# Örnek: 0.01 ETH yatır
+cast send <CONTRACT_ADDRESS> --value 0.01ether --rpc-url $BASE_SEPOLIA_RPC_URL
+\`\`\`
+
+### 5. Token Havuzu Doldurma
 
 Her token için approval ve transfer işlemi:
 
 \`\`\`bash
-# DEGEN token için örnek
-# 1. Token contract'ında approve çağır
-# approve(luckyCapsuleAddress, amount)
-
-# 2. LuckyCapsule contract'ında fundRewardPool çağır
+# Token approval ve transfer scripti çalıştır
 npx hardhat run scripts/fund-pool.js --network baseSepolia
 \`\`\`
 
-### 4. Mainnet'e Deploy (Base)
+### 6. Mainnet'e Deploy (Base)
 
 \`\`\`bash
 # Production deployment
@@ -73,27 +78,28 @@ npx hardhat run scripts/deploy-contracts.js --network base
 
 # Contract verification
 npx hardhat verify --network base CONTRACT_ADDRESS \
-  VRF_COORDINATOR SUBSCRIPTION_ID GAS_LANE CALLBACK_GAS_LIMIT
+  SUPRA_ROUTER_ADDRESS CLIENT_WALLET_ADDRESS
 \`\`\`
 
 ## Contract Adresleri
 
 ### Base Mainnet
 - LuckyCapsule: `TBD`
-- VRF Coordinator: `0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634`
+- Supra Router: `0x99a021029EBC90020B193e111Ae2726264a111A2`
 
 ### Base Sepolia (Testnet)
 - LuckyCapsule: `TBD`
-- VRF Coordinator: `0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634`
+- Supra Router: `0x99a021029EBC90020B193e111Ae2726264a111A2`
 
 ## Güvenlik Notları
 
 ### ✅ Güvenlik Özellikleri
 
-1. **Chainlink VRF Kullanımı**
-   - Gerçek randomness, manipüle edilemez
+1. **Supra dVRF Kullanımı**
+   - Decentralized VRF ile gerçek randomness
+   - Manipüle edilemez random sayı üretimi
    - On-chain doğrulanabilir randomness
-   - 3 block confirmation ile güvenlik
+   - 1 block confirmation (hızlı sonuç)
 
 2. **ReentrancyGuard**
    - Reentrancy saldırılarına karşı korumalı
@@ -117,7 +123,21 @@ npx hardhat verify --network base CONTRACT_ADDRESS \
 - `.env` dosyasını `.gitignore`'a ekleyin
 - Mainnet deploy öncesi testnet'te kapsamlı test yapın
 - Token havuzunu düzenli kontrol edin
-- VRF subscription'da yeterli LINK olduğundan emin olun
+- Contract'ta yeterli ETH olduğundan emin olun (callback gas için)
+- Supra whitelist kaydınızı tamamlayın
+
+## Supra dVRF vs Chainlink VRF
+
+### Supra dVRF Avantajları
+- ✅ Daha hızlı sonuç (1 confirmation)
+- ✅ Daha düşük gas maliyeti
+- ✅ Subscription gerekmez
+- ✅ LINK token gerekmez
+
+### Önemli Farklar
+- ⚠️ Wallet kaydı zorunlu
+- ⚠️ Contract whitelist gerekli
+- ⚠️ Callback için contract'ta ETH bulunmalı
 
 ## Test
 
@@ -137,8 +157,8 @@ REPORT_GAS=true npx hardhat test
 ### Kullanıcı Tarafından
 
 1. `openCapsule()` fonksiyonunu 0.001 ETH ile çağır
-2. Chainlink VRF randomness isteği oluşturulur
-3. 3 block sonra `fulfillRandomWords` callback çağrılır
+2. Supra dVRF randomness isteği oluşturulur (nonce döner)
+3. 1 block sonra `requestCallback` otomatik çağrılır
 4. Random token ödülü kullanıcıya transfer edilir
 
 ### Admin Tarafından
@@ -152,3 +172,6 @@ fundRewardPool(tokenAddress, amount);
 
 // Ücretleri çek
 withdrawFees(payable(adminAddress));
+
+// Callback gas fee kontrolü
+// Contract balance'ı kontrol et, düşükse ETH yatır
