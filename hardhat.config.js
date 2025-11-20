@@ -1,7 +1,6 @@
 require("@nomicfoundation/hardhat-ethers")
 require("@nomicfoundation/hardhat-chai-matchers")
 require("@nomicfoundation/hardhat-verify")
-require("@nomiclabs/hardhat-etherscan")
 require("dotenv").config()
 
 /** @type import('hardhat/config').HardhatUserConfig */
