@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -37,8 +37,8 @@
   --sidebar-accent-foreground: oklch(0.98 0.01 265);
   --sidebar-border: oklch(0.25 0.03 265 / 0.3);
   --sidebar-ring: oklch(0.65 0.25 250);
-  
-  /* Custom colors for Lucky Cube */
+
+  /* Custom colors for Lucky Capsule */
   --base-blue: oklch(0.65 0.25 250);
   --neon-purple: oklch(0.6 0.2 280);
   --cube-glow: oklch(0.7 0.3 250);
@@ -82,8 +82,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: "Geist", "Geist Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -120,7 +120,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  
+
   /* Custom color variables */
   --color-base-blue: var(--base-blue);
   --color-neon-purple: var(--neon-purple);
@@ -145,15 +145,15 @@
     backdrop-filter: blur(20px);
     border: 1px solid var(--color-glass-border);
   }
-  
+
   .glow-base {
     box-shadow: 0 0 20px var(--color-base-blue);
   }
-  
+
   .glow-purple {
     box-shadow: 0 0 20px var(--color-neon-purple);
   }
-  
+
   .cube-glow {
     box-shadow: 0 0 40px var(--color-cube-glow), 0 0 80px var(--color-cube-glow);
   }
