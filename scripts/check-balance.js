@@ -45,18 +45,17 @@ async function main() {
       const ownerBalance = await token.balanceOf(owner.address)
 
       console.log(`${symbol}:`)
-      console.log(`  Contract Balance: ${hre.ethers.utils.formatUnits(contractBalance, decimals)}`)
-      console.log(`  Owner Balance:    ${hre.ethers.utils.formatUnits(ownerBalance, decimals)}`)
+      console.log(`  Contract Balance: ${hre.ethers.formatUnits(contractBalance, decimals)}`)
+      console.log(`  Owner Balance:    ${hre.ethers.formatUnits(ownerBalance, decimals)}`)
       console.log("")
     } catch (error) {
       console.log(`${symbol}: ❌ Kontrol edilemedi (${error.message})\n`)
     }
   }
 
-  // ETH balance
   const contractEthBalance = await hre.ethers.provider.getBalance(contractAddress)
   console.log("ETH:")
-  console.log(`  Contract Balance: ${hre.ethers.utils.formatEther(contractEthBalance)} ETH`)
+  console.log(`  Contract Balance: ${hre.ethers.formatEther(contractEthBalance)} ETH`)
   console.log("=".repeat(70))
 }
 
