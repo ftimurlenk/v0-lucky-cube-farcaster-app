@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "balance:mainnet": "hardhat run scripts/check-balance.js --network base",
+    "balance:testnet": "hardhat run scripts/check-balance.js --network baseSepolia",
     "build": "next build",
     "compile": "hardhat compile",
     "deploy:mainnet": "hardhat run scripts/deploy-contracts.js --network base",
@@ -12,7 +14,9 @@
     "fund:testnet": "hardhat run scripts/fund-pool.js --network baseSepolia",
     "lint": "eslint .",
     "start": "next start",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "verify:mainnet": "hardhat run scripts/verify-contract.js --network base",
+    "verify:testnet": "hardhat run scripts/verify-contract.js --network baseSepolia"
   },
   "dependencies": {
     "@chainlink/contracts": "^1.3.0",
