@@ -1,6 +1,8 @@
-require("@nomicfoundation/hardhat-toolbox");
-require("@nomiclabs/hardhat-etherscan");
-require("dotenv").config();
+require("@nomicfoundation/hardhat-ethers")
+require("@nomicfoundation/hardhat-chai-matchers")
+require("@nomicfoundation/hardhat-verify")
+require("@nomiclabs/hardhat-etherscan")
+require("dotenv").config()
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -38,17 +40,17 @@ module.exports = {
         chainId: 8453,
         urls: {
           apiURL: "https://api.basescan.org/api",
-          browserURL: "https://basescan.org"
-        }
+          browserURL: "https://basescan.org",
+        },
       },
       {
         network: "baseSepolia",
         chainId: 84532,
         urls: {
           apiURL: "https://api-sepolia.basescan.org/api",
-          browserURL: "https://sepolia.basescan.org"
-        }
-      }
-    ]
-  }
-};
+          browserURL: "https://sepolia.basescan.org",
+        },
+      },
+    ],
+  },
+}
