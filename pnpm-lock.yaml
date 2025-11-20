@@ -18,7 +18,7 @@ importers:
         specifier: latest
         version: 4.0.3(hardhat@3.0.15)
       '@nomicfoundation/hardhat-network-helpers':
-        specifier: ^1.0.12
+        specifier: 1.0.12
         version: 1.0.12(hardhat@3.0.15)
       '@nomicfoundation/hardhat-verify':
         specifier: latest
