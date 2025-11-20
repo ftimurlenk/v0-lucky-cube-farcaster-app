@@ -69,7 +69,7 @@
     "date-fns": "4.1.0",
     "dotenv": "latest",
     "embla-carousel-react": "8.5.1",
-    "ethers": "^5.7.2",
+    "ethers": "^6.14.0",
     "hardhat": "latest",
     "hardhat-gas-reporter": "latest",
     "input-otp": "1.4.1",
