@@ -12,7 +12,7 @@ Lucky Capsule allows users to open a daily capsule and receive Base Network meme
 - **Fair Distribution**: Rarity-based reward system
 - **24-Hour Cooldown**: One capsule per day per user
 - **Base Network Tokens**: DEGEN, BRETT, TOSHI, MOCHI, BASEGOD, SHIBA
-- **Low Fee**: 0.001 ETH per capsule opening
+- **Low Fee**: 0.00001 ETH per capsule opening (approximately 2.5 cents)
 
 ## Rarity System
 
@@ -38,7 +38,9 @@ cp .env.example .env
 \`\`\`
 
 Required variables:
-- `PRIVATE_KEY`: Your wallet private key (without 0x)
+- `PRIVATE_KEY`: Your wallet private key (without 0x prefix)
+  - **Important**: The address associated with this private key will become the contract owner
+  - The owner has admin privileges to withdraw funds, update fees, etc.
 - `BASESCAN_API_KEY`: API key from Basescan for verification
 - `BASE_MAINNET_RPC_URL`: Base mainnet RPC URL (optional)
 
@@ -62,18 +64,29 @@ npm run deploy:testnet
 npm run deploy:mainnet
 \`\`\`
 
+The deployment will:
+1. Deploy the LuckyCapsule contract
+2. Set the deployer address as the contract owner
+3. Display the contract address and deployment information
+
 After deployment, save the contract address to `.env`:
 
 \`\`\`
 CONTRACT_ADDRESS=0x...
 \`\`\`
 
+**Note**: The deployer address will automatically become the contract owner with the following privileges:
+- Withdraw collected ETH fees
+- Withdraw tokens from the pool
+- Update Supra Router address
+- Update capsule opening fee
+
 ## Supra dVRF Setup
 
 ### 1. Register with Supra
 
 Visit Supra dVRF dashboard and register:
-- Your deployer wallet address
+- Your deployer wallet address (contract owner)
 - The deployed contract address
 - Network: Base Mainnet (Chain ID: 8453)
 
@@ -113,7 +126,7 @@ npm run balance
 
 ### User Functions
 
-- `openCapsule()`: Open a capsule (requires 0.001 ETH fee)
+- `openCapsule()`: Open a capsule (requires 0.00001 ETH fee)
 - `canOpenCapsule(address)`: Check if user can open capsule
 - `timeUntilNextCapsule(address)`: Get cooldown time remaining
 
@@ -128,7 +141,7 @@ npm run balance
 
 - ReentrancyGuard protection
 - SafeERC20 for token transfers
-- Ownable for admin functions
+- Ownable for admin functions (deployer is owner)
 - 24-hour cooldown per user
 - Pool balance validation
 

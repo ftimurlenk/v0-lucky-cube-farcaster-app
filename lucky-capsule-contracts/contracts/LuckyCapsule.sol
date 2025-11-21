@@ -34,7 +34,7 @@ contract LuckyCapsule is Ownable, ReentrancyGuard {
     uint256 public constant COOLDOWN_PERIOD = 24 hours;
 
     // Fee to open capsule
-    uint256 public capsuleFee = 0.001 ether;
+    uint256 public capsuleFee = 0.00001 ether;
 
     // Mapping to track user's last capsule opening time
     mapping(address => uint256) public lastOpenTime;
