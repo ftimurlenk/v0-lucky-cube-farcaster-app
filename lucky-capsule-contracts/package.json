@@ -7,6 +7,8 @@
     "deploy:testnet": "hardhat run scripts/deploy-contracts.js --network baseSepolia",
     "deploy:mainnet": "hardhat run scripts/deploy-contracts.js --network base",
     "verify": "hardhat run scripts/verify-contract.js --network base",
+    "verify:testnet": "hardhat run scripts/verify-contract.js --network baseSepolia",
+    "flatten": "hardhat run scripts/flatten-contract.js",
     "fund": "hardhat run scripts/fund-pool.js --network base",
     "balance": "hardhat run scripts/check-balance.js --network base",
     "test": "hardhat test"

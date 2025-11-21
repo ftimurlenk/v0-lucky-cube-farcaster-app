@@ -48,6 +48,9 @@ module.exports = {
       },
     ],
   },
+  sourcify: {
+    enabled: true,
+  },
   paths: {
     sources: "./contracts",
     tests: "./test",
