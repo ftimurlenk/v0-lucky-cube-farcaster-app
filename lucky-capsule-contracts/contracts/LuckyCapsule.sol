@@ -14,15 +14,15 @@ contract LuckyCapsule is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     // Supra dVRF Router address on Base Mainnet
-    address public supraRouter = 0x2b2B0d3BD3D8f0e1c5e3A13e1e6E0C2e3e4d5e6f;
+    address public supraRouter = 0x2B2B0D3BD3D8f0E1C5e3a13E1E6E0c2e3e4D5e6f;
 
     // Token addresses on Base Network
     address public constant DEGEN = 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
     address public constant BRETT = 0x532f27101965dd16442E59d40670FaF5eBB142E4;
     address public constant TOSHI = 0xAC1Bd2486aAf3B5C0fc3Fd868558b082a531B2B4;
     address public constant MOCHI = 0xF6e932Ca12afa26665dC4dDE7e27be02A7c02e50;
-    address public constant BASEGOD = 0xd08a2917653d4E460893203471f0000826fb4034;
-    address public constant SHIBA = 0x4A8D8eBb5c8e8e0E9b2e5F2c5e3e4d5e6f7a8b9c;
+    address public constant BASEGOD = 0xD08a2917653d4E460893203471f0000826fb4034;
+    address public constant SHIBA = 0x4A8d8eBb5C8e8e0e9B2e5F2c5E3E4d5E6f7A8B9C;
 
     // Rarity thresholds (0-9999)
     uint256 public constant COMMON_MAX = 4999;    // 50%
