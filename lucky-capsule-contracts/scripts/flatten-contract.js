@@ -5,7 +5,7 @@ const path = require("path")
 async function main() {
   console.log("Flattening LuckyCapsule contract...")
 
-  const flattenedCode = await hre.run("flatten:get-flattened-sources", {
+  const flattenedCode = await hre.run("flatten", {
     files: ["contracts/LuckyCapsule.sol"],
   })
 
@@ -20,7 +20,14 @@ async function main() {
 
   console.log("✅ Contract flattened successfully!")
   console.log(`Output: ${outputPath}`)
-  console.log("\nYou can use this flattened file for manual verification on Basescan if needed.")
+  console.log("\nFor Basescan Manual Verification:")
+  console.log("1. Go to contract address on Basescan")
+  console.log("2. Click 'Verify and Publish'")
+  console.log("3. Select 'Solidity (Single file)'")
+  console.log("4. Compiler: v0.8.20+commit.a1b79de6")
+  console.log("5. Optimization: Yes (200 runs)")
+  console.log("6. Paste the flattened code")
+  console.log("7. Enter constructor arguments (if any)")
 }
 
 main()
